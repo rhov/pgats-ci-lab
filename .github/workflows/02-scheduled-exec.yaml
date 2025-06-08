@@ -8,7 +8,7 @@ name: "Execução Agendada"
  
 on:
   schedule:
-    - cron: '20 21 * * *' # Executa toda dia às 21:20
+    - cron: '0 6 * * 1' # Executa toda  segunda-feira às 6:00 AM UTC
     # a - minuto
     # b - hora
     # c - dia do mês
