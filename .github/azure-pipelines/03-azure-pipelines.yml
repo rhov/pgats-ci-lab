@@ -33,3 +33,24 @@ steps:
 
   - script: yarn run e2e
     displayName: 'Executa testes E2E'
+
+# --- TAREFA 1: Publica o Relatório HTML Completo do Playwright ---
+  # Ideal para visualização detalhada com screenshots, vídeos, etc.
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'playwright-report' # Pasta padrão onde o Playwright salva o relatório HTML
+      artifactName: 'Playwright HTML Report' # Nome que aparecerá na aba 'Artifacts'
+      artifactType: 'Container'
+    condition: always() # Publica o relatório mesmo que os testes falhem (muito importante!)
+    displayName: 'Publica Relatório HTML Detalhado'
+
+  # --- TAREFA 2: Publica o Resumo dos Testes (JUnit) para a aba "Tests" ---
+  # Isso fornecerá um resumo na aba "Tests" do Azure DevOps, com contagem de passados/falhados, etc.
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'results.xml' # O nome do arquivo JUnit que você configurou
+      mergeResults: true # Útil se houver múltiplos arquivos JUnit (não é o caso aqui, mas boa prática)
+      testRunTitle: 'Playwright E2E Test Summary' # Título que aparecerá na aba de testes
+    condition: succeededOrFailed() # Publica resultados mesmo se a pipeline falhar no meio
+    displayName: 'Publica Resumo dos Testes (Aba "Tests")'
