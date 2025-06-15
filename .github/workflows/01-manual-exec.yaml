@@ -44,15 +44,19 @@ jobs:
     - name: Run E2E tests
       run: yarn run e2e
 
-    # --- NOVA ACTION 1: Publica o Resumo dos Testes (JUnit) para a aba "Tests" ---
-    # Isso criará uma aba "Tests" na sua execução de workflow no GitHub
+    - name: List files in root
+      run: ls -l
+
+ # --- NOVA ACTION PARA PUBLICAR O RESUMO DOS TESTES (JUnit) ---
+    # AGORA USANDO: EnricoMi/publish-unit-test-result-action
     - name: Publish Test Results (JUnit)
-      uses: dorny/test-reporter@v2.1.0 # Use a versão mais recente se houver
+      uses: EnricoMi/publish-unit-test-result-action@v2 # <-- USAR ESTA ACTION
       if: always() # Garante que os resultados serão publicados mesmo se os testes falharem
       with:
-        name: Playwright E2E Tests # Nome da execução de teste que aparecerá na aba "Tests"
-        path: results.xml # O caminho para o seu arquivo JUnit XML
-        reporter: github-actions # Tipo de reporter, o playwright-junit é específico para o formato do playwright
+        files: ./results.xml # O caminho para o seu arquivo JUnit XML. A action entende o formato JUnit.
+        name: Playwright E2E Test Summary # Nome que aparecerá na aba "Tests"
+        # Não precisa de 'reporter:' para esta action, ela é feita para JUnit XML
+
 
     # --- NOVA ACTION 2: Publica o Relatório HTML Completo do Playwright como Artefato ---
     # Isso permitirá que você baixe o relatório HTML interativo completo
@@ -63,3 +67,4 @@ jobs:
         name: playwright-html-report # Nome do artefato
         path: playwright-report # O diretório onde o Playwright salva o relatório HTML
         retention-days: 5 # Opcional: quantos dias o artefato deve ser mantido (padrão é 90)
+
