@@ -12,7 +12,7 @@ schedules:
     always: true
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'default' # Use 'default' ou o nome do pool que você escolheu
 
 steps:
   - checkout: self
