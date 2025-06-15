@@ -1,8 +1,9 @@
 # azure-pipelines.yml
-trigger: none # Não dispara com push
+
+trigger: none  # Não dispara com push
 
 schedules:
-  - cron: "0 6 * * 1" # Segunda-feira às 06:00 UTC (03:00 no Brasil)
+  - cron: "0 6 * * 1"  # Segunda-feira às 06:00 UTC (03:00 no Brasil)
     displayName: Execução semanal
     branches:
       include:
@@ -10,7 +11,7 @@ schedules:
     always: true
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
   - checkout: self
