@@ -1,0 +1,33 @@
+# azure-pipelines.yml
+trigger: none # Não dispara com push
+
+schedules:
+  - cron: "0 6 * * 1" # Segunda-feira às 06:00 UTC (03:00 no Brasil)
+    displayName: Execução semanal
+    branches:
+      include:
+        - main
+    always: true
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '22.x'
+    displayName: 'Instala Node.js'
+
+  - script: npm install -g yarn
+    displayName: 'Instala Yarn'
+
+  - script: yarn
+    displayName: 'Instala dependências'
+
+  - script: yarn playwright install
+    displayName: 'Instala Playwright'
+
+  - script: yarn run e2e
+    displayName: 'Executa testes E2E'
