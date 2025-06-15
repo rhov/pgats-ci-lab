@@ -52,7 +52,7 @@ jobs:
       with:
         name: Playwright E2E Tests # Nome da execução de teste que aparecerá na aba "Tests"
         path: results.xml # O caminho para o seu arquivo JUnit XML
-        reporter: junit # Tipo de reporter, o playwright-junit é específico para o formato do playwright
+        reporter: github-actions # Tipo de reporter, o playwright-junit é específico para o formato do playwright
 
     # --- NOVA ACTION 2: Publica o Relatório HTML Completo do Playwright como Artefato ---
     # Isso permitirá que você baixe o relatório HTML interativo completo
