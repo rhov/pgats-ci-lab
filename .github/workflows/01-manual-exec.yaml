@@ -47,7 +47,7 @@ jobs:
     # --- NOVA ACTION 1: Publica o Resumo dos Testes (JUnit) para a aba "Tests" ---
     # Isso criará uma aba "Tests" na sua execução de workflow no GitHub
     - name: Publish Test Results (JUnit)
-      uses: dorny/test-reporter@v2 # Use a versão mais recente se houver
+      uses: dorny/test-reporter@v2.1.0 # Use a versão mais recente se houver
       if: always() # Garante que os resultados serão publicados mesmo se os testes falharem
       with:
         name: Playwright E2E Tests # Nome da execução de teste que aparecerá na aba "Tests"
