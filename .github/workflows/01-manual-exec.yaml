@@ -44,9 +44,6 @@ jobs:
     - name: Run E2E tests
       run: yarn run e2e
 
-    - name: List files in root
-      run: ls -l
-
  # --- NOVA ACTION PARA PUBLICAR O RESUMO DOS TESTES (JUnit) ---
     # AGORA USANDO: EnricoMi/publish-unit-test-result-action
     - name: Publish Test Results (JUnit)
