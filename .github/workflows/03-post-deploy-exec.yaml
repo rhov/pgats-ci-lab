@@ -13,6 +13,10 @@ on:
     types:
       - completed
 
+# condicional - if
+# Se o workflow "Execução Manual" foi concluído com sucesso, então executa este workflow
+# `${github.event.workflow_run.conclusion} == 'success'`
+
 
   # trabalhos/tarefas dentro do pipeline = jobs
 jobs:
