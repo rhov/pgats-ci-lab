@@ -1,0 +1,79 @@
+# CI de Nível 4: Disparo dos testes dentro do pipeline de Dev
+
+name: "Execução Integrada"
+on:
+ workflow_dispatch: # Gatilho manual para iniciar o workflow
+
+jobs:
+  inspecao:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Checando padrões de código
+        run: yarn lint
+
+  unidade:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run unit tests
+        run: yarn test
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Install Playwright
+        run: yarn playwright install
+
+      - name: Run E2E tests
+        run: yarn run e2e
+    
+        # --- NOVA ACTION 3: Publica os Resultados dos Testes E2E como Artefato ---
+    # Isso permitirá que você baixe os resultados dos testes E2E como um artef
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled()}}
+        # Outros status podem ser: success(), failure(), always()
+        with:
+            name: relatorio-e2e # Nome do artefato
+            path: ./playwright-report # O caminho para o diretório com os resultados dos testes E2E
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simulando deploy
+        run: echo "Simulating deployment..." # Simulação de deploy, substitua pelo seu
+        

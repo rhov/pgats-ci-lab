@@ -1,4 +1,5 @@
-# CI de Nível 01 - Disparo manual a partir de 1 clique
+# CI de Nível 03 -  Execução por Deploy
+# Este workflow é disparado após a conclusão do workflow "Execução Manual"
 
 # nome do nosso 'pipeline'
 name: "Execução por Deploy "
@@ -11,7 +12,7 @@ on:
   workflow_run:
     workflows: ["Execução Manual"]
     types:
-      - cancelled
+      - completed # Este tipo indica que o workflow "Execução Manual" foi concluído
 # Outros tipos possíveis:
 # - requested: quando o workflow é solicitado
 # - in_progress: quando o workflow está em andamento
