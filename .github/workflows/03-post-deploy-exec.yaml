@@ -73,3 +73,11 @@ jobs:
         path: playwright-report # O diretório onde o Playwright salva o relatório HTML
         retention-days: 5 # Opcional: quantos dias o artefato deve ser mantido (padrão é 90)
 
+    # --- NOVA ACTION 3: Publica os Resultados dos Testes E2E como Artefato ---
+    # Isso permitirá que você baixe os resultados dos testes E2E como um artef
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled()}}
+      # Outros status podem ser: success(), failure(), always()
+      with:
+        name: relatorio-e2e # Nome do artefato
+        path: ./playwright-report # O caminho para o diretório com os resultados dos testes E2E
