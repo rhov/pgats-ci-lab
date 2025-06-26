@@ -1,8 +1,8 @@
 # CI de Nível 4: Disparo dos testes dentro do pipeline de Dev
 
-name: "Execução Integrada"
+name: 'Execução Integrada'
 on:
- workflow_dispatch: # Gatilho manual para iniciar o workflow
+  workflow_dispatch: # Gatilho manual para iniciar o workflow
 
 jobs:
   inspecao:
@@ -60,15 +60,15 @@ jobs:
 
       - name: Run E2E tests
         run: yarn run e2e
-    
+
         # --- NOVA ACTION 3: Publica os Resultados dos Testes E2E como Artefato ---
-    # Isso permitirá que você baixe os resultados dos testes E2E como um artef
+      # Isso permitirá que você baixe os resultados dos testes E2E como um artef
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled()}}
         # Outros status podem ser: success(), failure(), always()
         with:
-            name: relatorio-e2e # Nome do artefato
-            path: ./playwright-report # O caminho para o diretório com os resultados dos testes E2E
+          name: relatorio-e2e # Nome do artefato
+          path: ./playwright-report # O caminho para o diretório com os resultados dos testes E2E
 
   deploy:
     runs-on: ubuntu-latest
@@ -76,4 +76,3 @@ jobs:
     steps:
       - name: Simulando deploy
         run: echo "Simulating deployment..." # Simulação de deploy, substitua pelo seu
-        

@@ -1,67 +1,63 @@
 # CI de Nível 01 - Disparo manual a partir de 1 clique
 
 # nome do nosso 'pipeline'
-name: "Execução Manual"
+name: 'Execução Manual'
 
 # regras de disparo (gatilho/trigger)
 # gatilho de exec manual = workflow_dispatch
- 
+
 on:
   workflow_dispatch:
-
 
   # trabalhos/tarefas dentro do pipeline = jobs
 jobs:
   e2e-tests: #criação do jobs
-
-  #maquina que o job vai executar, outras procurar em actions/runner-images 
+    #maquina que o job vai executar, outras procurar em actions/runner-images
     runs-on: ubuntu-latest
 
-  # passos que o job vai executar
-    steps: 
-    
-    # clone do projeto
-    - name: Checkout code
-      uses: actions/checkout@v2
-    # instalação do Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '22.x' # ou a versão que você preferir
-    # instalação do yarn
-    - name: Install Yarn
-      run: npm install -g yarn
+    # passos que o job vai executar
+    steps:
+      # clone do projeto
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # instalação do Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.x' # ou a versão que você preferir
+      # instalação do yarn
+      - name: Install Yarn
+        run: npm install -g yarn
 
-    # instalação das dependências do projeto
-    - name: Install dependencies
-      run: yarn
+      # instalação das dependências do projeto
+      - name: Install dependencies
+        run: yarn
 
-    # instalação do playwright
-    - name: Install Playwright
-      run: yarn playwright install
-       
-    # execução dos testes e2e
-    - name: Run E2E tests
-      run: yarn run e2e
+      # instalação do playwright
+      - name: Install Playwright
+        run: yarn playwright install
 
- # --- NOVA ACTION PARA PUBLICAR O RESUMO DOS TESTES (JUnit) ---
-    # AGORA USANDO: EnricoMi/publish-unit-test-result-action
-    - name: Publish Test Results (JUnit)
-      uses: EnricoMi/publish-unit-test-result-action@v2 # <-- USAR ESTA ACTION
-      if: always() # Garante que os resultados serão publicados mesmo se os testes falharem
-      with:
-        files: ./results.xml # O caminho para o seu arquivo JUnit XML. A action entende o formato JUnit.
-        name: Playwright E2E Test Summary # Nome que aparecerá na aba "Tests"
-        # Não precisa de 'reporter:' para esta action, ela é feita para JUnit XML
+      # execução dos testes e2e
+      - name: Run E2E tests
+        run: yarn run e2e
 
+      # --- NOVA ACTION PARA PUBLICAR O RESUMO DOS TESTES (JUnit) ---
+      # AGORA USANDO: EnricoMi/publish-unit-test-result-action
+      - name: Publish Test Results (JUnit)
+        uses: EnricoMi/publish-unit-test-result-action@v2 # <-- USAR ESTA ACTION
+        if: always() # Garante que os resultados serão publicados mesmo se os testes falharem
+        with:
+          files: ./results.xml # O caminho para o seu arquivo JUnit XML. A action entende o formato JUnit.
+          name: Playwright E2E Test Summary # Nome que aparecerá na aba "Tests"
+          # Não precisa de 'reporter:' para esta action, ela é feita para JUnit XML
 
-    # --- NOVA ACTION 2: Publica o Relatório HTML Completo do Playwright como Artefato ---
-    # Isso permitirá que você baixe o relatório HTML interativo completo
-    - name: Upload Playwright HTML Report
-      uses: actions/upload-artifact@v4
-      if: always() # Garante que o relatório será carregado mesmo se os testes falharem
-      with:
-        name: playwright-html-report # Nome do artefato
-        path: playwright-report # O diretório onde o Playwright salva o relatório HTML
-        retention-days: 5 # Opcional: quantos dias o artefato deve ser mantido (padrão é 90)
+      # --- NOVA ACTION 2: Publica o Relatório HTML Completo do Playwright como Artefato ---
+      # Isso permitirá que você baixe o relatório HTML interativo completo
+      - name: Upload Playwright HTML Report
+        uses: actions/upload-artifact@v4
+        if: always() # Garante que o relatório será carregado mesmo se os testes falharem
+        with:
+          name: playwright-html-report # Nome do artefato
+          path: playwright-report # O diretório onde o Playwright salva o relatório HTML
+          retention-days: 5 # Opcional: quantos dias o artefato deve ser mantido (padrão é 90)
 

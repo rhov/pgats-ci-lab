@@ -1,12 +1,11 @@
 # azure-pipelines.yml
 
-trigger: none  # Não dispara com push
+trigger: none # Não dispara com push
 
 schedules:
-  - cron: "0 6 * * 1"  # Segunda-feira às 06:00 UTC (03:00 no Brasil)
+  - cron: '0 6 * * 1' # Segunda-feira às 06:00 UTC (03:00 no Brasil)
     displayName: Execução semanal
     branches:
-      
       include:
         - main
     always: true
@@ -34,7 +33,7 @@ steps:
   - script: yarn run e2e
     displayName: 'Executa testes E2E'
 
-# --- TAREFA 1: Publica o Relatório HTML Completo do Playwright ---
+  # --- TAREFA 1: Publica o Relatório HTML Completo do Playwright ---
   # Ideal para visualização detalhada com screenshots, vídeos, etc.
   - task: PublishBuildArtifacts@1
     inputs:
